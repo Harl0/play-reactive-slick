@@ -1,10 +1,11 @@
 package models
 
-import slick.driver.PostgresDriver.api._
-import scala.concurrent.Future
-import play.api.libs.concurrent.Execution.Implicits._
-import play.api.db.DB
 import play.api.Play.current
+import play.api.db.DB
+import play.api.libs.concurrent.Execution.Implicits._
+import slick.driver.PostgresDriver.api._
+
+import scala.concurrent.Future
 
 trait DAOComponent {
 

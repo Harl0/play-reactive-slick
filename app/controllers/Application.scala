@@ -1,46 +1,37 @@
 package controllers
 
-import views._
-import play.api._
-import play.api.mvc._
-import play.api.data._
-import play.api.data.Forms._
-import models.{ DAOComponent, DAO, Employee }
 import java.util.concurrent.TimeoutException
-import scala.concurrent.Future
+
+import forms._
+import models.{DAO, DAOComponent}
+import play.api._
 import play.api.libs.concurrent.Execution.Implicits._
-//import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.mvc._
+import views._
+
+import scala.concurrent.Future
 
 /**
- * Manage a database of employees
- */
+  * Manage a database of employees
+  */
 class Application(dao: DAOComponent) extends Controller {
 
   /**
-   * This result directly redirect to the application home.
-   */
+    * This result directly redirect to the application home.
+    */
   val Home = Redirect(routes.Application.list(0, 2, ""))
 
-  /**
-   * Describe the employee form (used in both edit and create screens).
-   */
-  val employeeForm = Form(
-    mapping(
-      "id" -> optional(longNumber),
-      "name" -> nonEmptyText,
-      "address" -> nonEmptyText,
-      "dob" -> optional(date("dd/MM/yyyy")),
-      "joiningDate" -> default(date("dd/MM/yyyy"), new java.util.Date),
-      "designation" -> optional(text))(Employee.apply)(Employee.unapply))
 
   /**
-   * Handle default path requests, redirect to employees list
-   */
-  def index = Action { Home }
+    * Handle default path requests, redirect to employees list
+    */
+  def index = Action {
+    Home
+  }
 
   /**
-   * Display the paginated list of employees.
-   */
+    * Display the paginated list of employees.
+    */
   def list(page: Int, orderBy: Int, filter: String): Action[AnyContent] = Action.async { implicit request =>
     dao.list(page, 10, orderBy, "%" + filter + "%").map { pageEmp =>
       Ok(html.list(pageEmp, orderBy, filter))
@@ -52,10 +43,10 @@ class Application(dao: DAOComponent) extends Controller {
   }
 
   /**
-   * Display the 'edit form' of a existing employee.
-   */
+    * Display the 'edit form' of a existing employee.
+    */
   def edit(id: Long): Action[AnyContent] = Action.async { implicit request =>
-    dao.findById(id).map(employee => Ok(html.editForm(id, employeeForm.fill(employee)))).recover {
+    dao.findById(id).map(employee => Ok(html.editForm(id, forms.employeeForm.fill(employee)))).recover {
       case ex: TimeoutException =>
         Logger.error("Problem found in employee edit process")
         InternalServerError(ex.getMessage)
@@ -63,10 +54,10 @@ class Application(dao: DAOComponent) extends Controller {
   }
 
   /**
-   * Handle the 'edit form' submission
-   */
+    * Handle the 'edit form' submission
+    */
   def update(id: Long): Action[AnyContent] = Action.async { implicit request =>
-    employeeForm.bindFromRequest.fold(
+    forms.employeeForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(html.editForm(id, formWithErrors))),
       employee => {
         val futureEmpUpdate = dao.update(id, employee.copy(id = Some(id)))
@@ -81,17 +72,17 @@ class Application(dao: DAOComponent) extends Controller {
   }
 
   /**
-   * Display the 'new employee form'.
-   */
+    * Display the 'new employee form'.
+    */
   def create: Action[AnyContent] = Action { implicit request =>
-    Ok(html.createForm(employeeForm))
+    Ok(html.createForm(forms.employeeForm))
   }
 
   /**
-   * Handle the 'new employee form' submission.
-   */
+    * Handle the 'new employee form' submission.
+    */
   def save: Action[AnyContent] = Action.async { implicit request =>
-    employeeForm.bindFromRequest.fold(
+    forms.employeeForm.bindFromRequest.fold(
       formWithErrors => Future.successful(BadRequest(html.createForm(formWithErrors))),
       employee => {
         val futureEmpInsert = dao.insert(employee)
@@ -104,8 +95,8 @@ class Application(dao: DAOComponent) extends Controller {
   }
 
   /**
-   * Handle employee deletion
-   */
+    * Handle employee deletion
+    */
   def delete(id: Long): Action[AnyContent] = Action.async { implicit request =>
     val futureEmpDel = dao.delete(id)
     futureEmpDel.map { result => Home.flashing("success" -> "Employee has been deleted") }.recover {
