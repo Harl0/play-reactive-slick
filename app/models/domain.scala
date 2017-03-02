@@ -11,7 +11,17 @@ case class Page[A](items: Seq[A], page: Int, offset: Long, total: Long) {
   lazy val next = Option(page + 1).filter(_ => (offset + items.size) < total)
 }
 
-case class Employee(id: Option[Long], name: String, address: String, dob: Option[Date], joiningDate: Date, designation: Option[String])
+// Employee model
+case class Employee(id: Option[Long],
+                    name: String,
+                    address: String,
+                    city: String,
+                    county: String,
+                    country: String,
+                    postcode: String,
+                    phone: Long,
+                    email: String,
+                    status: String)
 
 class Employees(tag: Tag) extends Table[Employee](tag, "EMPLOYEE") {
 
@@ -22,13 +32,15 @@ class Employees(tag: Tag) extends Table[Employee](tag, "EMPLOYEE") {
   def name = column[String]("name")
 
   def address = column[String]("address")
+  def city = column[String]("city")
+  def county = column[String]("county")
+  def country = column[String]("country")
+  def postcode = column[String]("postcode")
+  def phone = column[Long]("phone")
+  def email = column[String]("email")
 
-  def dob = column[Date]("date_of_birth")
+  def status = column[String]("status")
 
-  def joiningDate = column[Date]("joining_date")
-
-  def designation = column[String]("designation")
-
-  def * = (id.?, name, address, dob.?, joiningDate, designation.?) <> (Employee.tupled, Employee.unapply _)
+  def * = (id.?, name, address, city, county, country, postcode, phone, email, status) <> (Employee.tupled, Employee.unapply _)
 
 }

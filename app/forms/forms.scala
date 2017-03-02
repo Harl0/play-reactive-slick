@@ -17,8 +17,12 @@ object forms {
       "id" -> optional(longNumber),
       "name" -> nonEmptyText,
       "address" -> nonEmptyText,
-      "dob" -> optional(date("dd/MM/yyyy")),
-      "joiningDate" -> default(date("dd/MM/yyyy"), new java.util.Date),
-      "designation" -> optional(text))(Employee.apply)(Employee.unapply))
-
+      "city" -> nonEmptyText,
+      "county" -> nonEmptyText,
+      "country" -> nonEmptyText,
+      "postcode" -> nonEmptyText,
+      "phone" -> longNumber,
+      "email" -> nonEmptyText,
+      "status" -> nonEmptyText)
+      (Employee.apply)(Employee.unapply))
 }

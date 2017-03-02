@@ -13,6 +13,7 @@ trait DAOComponent {
   def update(id: Long, employee: Employee): Future[Int]
   def delete(id: Long): Future[Int]
   def list(page: Int = 0, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%"): Future[Page[Employee]]
+//  def listActive(page: Int = 0, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%"): Future[Page[Employee]]
   def findById(id: Long): Future[Employee]
   def count: Future[Int]
 
@@ -87,5 +88,21 @@ object DAO extends DAOComponent {
       result flatMap (employees => totalRows map (rows => Page(employees, page, offset, rows)))
     } finally { db.close() }
   }
+
+  /**
+    * Return a page of ACTIVE employees
+    */
+//  override def listActive(page: Int = 0, pageSize: Int = 10, orderBy: Int = 1, filter: String = "%"): Future[Page[Employee]] = {
+//    try {
+//      val offset = pageSize * page
+//      val query =
+//        (for {
+//          employee <- employees if ((employee.name.toLowerCase like filter.toLowerCase)) || (employee.status like "Active")
+//        } yield (employee)).drop(offset).take(pageSize)
+//      val totalRows = count(filter)
+//      val result = db.run(query.result)
+//      result flatMap (employees => totalRows map (rows => Page(employees, page, offset, rows)))
+//    } finally { db.close() }
+//  }
 
 }

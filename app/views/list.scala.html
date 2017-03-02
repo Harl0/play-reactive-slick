@@ -4,7 +4,7 @@
 * Helper generating navigation links * 
 ****************************************@
 @link(newPage: Int, newOrderBy: Option[Int] = None) = @{ 
-  routes.Application.list(newPage, newOrderBy.map { orderBy => 
+  routes.Application.list(newPage, newOrderBy.map { orderBy =>
     if(orderBy == scala.math.abs(currentOrderBy)) -currentOrderBy else orderBy
   }.getOrElse(currentOrderBy), currentFilter)
 }
@@ -45,9 +45,13 @@
 		<tr>
 			@header(2, "Name")
 			@header(3, "Address") 
-	    	@header(4, "Date of Birth")
-			@header(5, "Joining Date") 
-			@header(6, "Designation")
+	    	@header(4, "City")
+			@header(5, "County")
+			@header(6, "Country")
+			@header(7, "Postcode")
+			@header(8, "Phone")
+			@header(9, "Email")
+			@header(10, "Status")
 		</tr>
 	</thead>
 	<tbody>
@@ -55,9 +59,13 @@
 		<tr>
 			<td><a href="@routes.Application.edit(employee.id.get)">@employee.name</a></td>
 			<td>@employee.address</td>
-			<td>@employee.dob.map(_.format("MM/dd/yyyy")).getOrElse { <em>-</em> }</td>
-			<td>@employee.joiningDate.format("MM/dd/yyyy")</td>
-			<td>@employee.designation</td>
+			<td>@employee.city</td>
+			<td>@employee.county</td>
+			<td>@employee.country</td>
+			<td>@employee.postcode</td>
+			<td>@employee.phone</td>
+			<td>@employee.email</td>
+			<td>@employee.status</td>
 		</tr>
 		}
 

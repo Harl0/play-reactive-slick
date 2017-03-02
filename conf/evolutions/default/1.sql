@@ -3,7 +3,17 @@
 
 # --- !Ups
 
-create table "EMPLOYEE" ("id" BIGSERIAL NOT NULL PRIMARY KEY,"name" VARCHAR(254) NOT NULL,"address" VARCHAR(254) NOT NULL,"date_of_birth" BIGINT, "joining_date" BIGINT NOT NULL,"designation" VARCHAR(254));
+create table "EMPLOYEE" (
+"id" BIGSERIAL NOT NULL PRIMARY KEY,
+"name" VARCHAR(254) NOT NULL,
+"address" VARCHAR(254) NOT NULL,
+"city" VARCHAR(254) NOT NULL,
+"county" VARCHAR(254) NOT NULL,
+"country" VARCHAR(254) NOT NULL,
+"postcode" VARCHAR(10) NOT NULL,
+"phone" BIGINT,
+"email" VARCHAR(254),
+"status" VARCHAR(10));
 
 # --- !Downs
 

@@ -43,6 +43,19 @@ class Application(dao: DAOComponent) extends Controller {
   }
 
   /**
+    * Display the paginated list of ACTIVE employees.
+    */
+//  def listActive(page: Int, orderBy: Int, filter: String): Action[AnyContent] = Action.async { implicit request =>
+//    dao.listActive(page, 10, orderBy, "%" + filter + "%").map { pageEmp =>
+//      Ok(html.list(pageEmp, orderBy, filter))
+//    }.recover {
+//      case ex: TimeoutException =>
+//        Logger.error("Problem found in employee list process")
+//        InternalServerError(ex.getMessage)
+//    }
+//  }
+
+  /**
     * Display the 'edit form' of a existing employee.
     */
   def edit(id: Long): Action[AnyContent] = Action.async { implicit request =>
