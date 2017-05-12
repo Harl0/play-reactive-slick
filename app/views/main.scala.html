@@ -4,20 +4,23 @@
 <html>
     <head>
         <title>Employees database</title>
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")"> 
-        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")"> 
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" type="text/css" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
     </head>
     <body>
-        
+
         <header class="topbar">
             <h1 class="fill">
-                   JHSG 1.0 Collector Management Application &mdash; Collector database
+                JHSG 1.0 Collector Management Application &mdash; Collector database
+                    <a class="btn success" id="add" href="@routes.Application.listActive()">Active</a>
+                    <a class="btn success" id="add" href="@routes.Application.listArchived()">Archived</a>
             </h1>
         </header>
-        
+
         <section id="main">
-            @content
+
+        @content
         </section>
-        
+
     </body>
 </html>

@@ -7,6 +7,8 @@ GET    /                       controllers.Application.index
 
 # Employees list (look at the default values for pagination parameters)
 GET    /employees              controllers.Application.list(p:Int ?= 0, s:Int ?= 2, f ?= "")
+GET    /employees/active       controllers.Application.listActive(p:Int ?= 0, s:Int ?= 2, f ?= "")
+GET    /employees/archived      controllers.Application.listArchived(p:Int ?= 0, s:Int ?= 2, f ?= "")
 
 # Add employee
 GET    /employees/new          controllers.Application.create
