@@ -23,6 +23,11 @@ object forms {
       "postcode" -> nonEmptyText,
       "phone" -> longNumber,
       "email" -> nonEmptyText,
-      "status" -> nonEmptyText)
-      (Employee.apply)(Employee.unapply))
+      "status" -> text.verifying("Status required", _.nonEmpty)
+    )
+    (Employee.apply)(Employee.unapply)
+  )
+
+//  val nonEmptyAlphaText: Mapping[String] = nonEmptyText.verifying("Must contain letters and spaces only.", status => status.matches("Active") )
+
 }
