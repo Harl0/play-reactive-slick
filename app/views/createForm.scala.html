@@ -2,16 +2,27 @@
 
 @import helper._
 
-@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) } 
+@implicitFieldConstructor = @{ FieldConstructor(twitterBootstrapInput.f) }
 
-@main(title = Messages("title.addEmployee")) {
+@main {
     
     <h1>Add an Employee</h1> 
-       
-    @form(routes.Application.save()) {
-        
+
+    @if(employeeForm.hasGlobalErrors || employeeForm.hasErrors) {
+        <div class="alert-message error">
+            <p>Please correct the following:</p>
+            <ul>
+            @employeeForm.errors.map { error =>
+                <p><span class="error-notification">@Messages(error.message)</span></p>
+            }
+            </ul>
+        </div>
+    }
+
+    @form(action = routes.Application.save()) {
+
         <fieldset>
-        
+
             @inputText(employeeForm("name"), '_label -> "Name")
             @inputText(employeeForm("address"), '_label -> "Address")
             @inputText(employeeForm("city"), '_label -> "City")
@@ -23,12 +34,12 @@
             @inputText(employeeForm("status"), '_label -> "Status")
 
         </fieldset>
-        
+
         <div class="actions">
-            <input type="submit" value="Add this employee" class="btn primary"> or 
+            <input type="submit" value="Add this employee" class="btn primary"> or
            <a href=@routes.Application.list() class="btn">Cancel</a>
         </div>
-        
+
     }
     
 }

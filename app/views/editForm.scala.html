@@ -8,7 +8,19 @@
 
 <h1>Edit Employee details</h1>
 
-@form(routes.Application.update(id)) {
+    @if(employeeForm.hasGlobalErrors || employeeForm.hasErrors) {
+        <div class="alert-message error">
+            <p>Please correct the following:</p>
+            <ul>
+            @employeeForm.errors.map { error =>
+                <p><span class="error-notification">@Messages(error.message)</span></p>
+            }
+            </ul>
+        </div>
+    }
+
+
+    @form(routes.Application.update(id)) {
 
 <fieldset>
 

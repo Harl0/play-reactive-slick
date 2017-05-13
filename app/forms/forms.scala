@@ -15,19 +15,17 @@ object forms {
   val employeeForm = Form(
     mapping(
       "id" -> optional(longNumber),
-      "name" -> nonEmptyText,
-      "address" -> nonEmptyText,
-      "city" -> nonEmptyText,
-      "county" -> nonEmptyText,
-      "country" -> nonEmptyText,
-      "postcode" -> nonEmptyText,
+      "name" -> text.verifying("Name Required", _.nonEmpty),
+      "address" -> text.verifying("Address Required", _.nonEmpty),
+      "city" -> text.verifying("City Required", _.nonEmpty),
+      "county" -> text.verifying("County Required", _.nonEmpty),
+      "country" -> text.verifying("Country Required", _.nonEmpty),
+      "postcode" -> text.verifying("Post Code Required", _.nonEmpty),
       "phone" -> longNumber,
-      "email" -> nonEmptyText,
-      "status" -> text.verifying("Status required", _.nonEmpty)
+      "email" -> text.verifying("E-Mail Required", _.nonEmpty),
+      "status" -> text.verifying("Status Required", _.nonEmpty )
     )
     (Employee.apply)(Employee.unapply)
+    verifying("Status must equal Active OR Archived", employee => employee.status.matches("Active") || employee.status.matches("Archived"))
   )
-
-//  val nonEmptyAlphaText: Mapping[String] = nonEmptyText.verifying("Must contain letters and spaces only.", status => status.matches("Active") )
-
 }
